@@ -43,6 +43,7 @@ public class MyControllerTest {
 
         mockMvc.perform(get("/my/api2"))
                 .andExpect(view().name("my/api1"));
+        System.out.println("lorem");
 
     }
 }
