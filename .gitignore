@@ -1,6 +1,10 @@
 */build/
-*/.settings
-*/.project
-*/.classpath
+*/*/out/*/*/
+*.settings
+*.project
+*.classpath
+*.idea
 */.gradle
-*/.idea
+*/gradlew
+*/gradlew.bat
+*/gradle
