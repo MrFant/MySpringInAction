@@ -22,7 +22,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     resolver.setSuffix(".jsp");
     return resolver;
   }
-  
+
+  //静态资源的配置
   @Override
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
     configurer.enable();
