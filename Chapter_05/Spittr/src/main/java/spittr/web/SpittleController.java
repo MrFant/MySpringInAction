@@ -27,6 +27,12 @@ public class SpittleController {
     this.spittleRepository = spittleRepository;
   }
 
+  /*
+  * @Comment : 这里没有明示返回试图名，所以会以请求路径作为返回视图名，也就是"spittles"
+  * 同时，返回的list也会被自动包装成一个model返回给视图解析器，key为spittleList
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-03-19
+  */
   @RequestMapping(method=RequestMethod.GET)
   public List<Spittle> spittles(
       @RequestParam(value="max", defaultValue=MAX_LONG_AS_STRING) long max,
