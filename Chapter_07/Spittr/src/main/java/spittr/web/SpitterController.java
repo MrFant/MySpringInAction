@@ -59,11 +59,12 @@ public class SpitterController {
     if (errors.hasErrors()) {
       return "registerForm";
     }
-    Spitter spitter = spitterForm.toSpitter();
-    spitterRepository.save(spitter);
-    MultipartFile profilePicture = spitterForm.getProfilePicture();
-    profilePicture.transferTo(new File("/tmp/spittr/" + spitter.getUsername() + ".jpg"));
-    return "redirect:/spitter/" + spitter.getUsername();
+    throw new DuplicateSpittleException();
+//    Spitter spitter = spitterForm.toSpitter();
+//    spitterRepository.save(spitter);
+//    MultipartFile profilePicture = spitterForm.getProfilePicture();
+//    profilePicture.transferTo(new File("/tmp/spittr/" + spitter.getUsername() + ".jpg"));
+//    return "redirect:/spitter/" + spitter.getUsername();
   }
   
   @RequestMapping(value="/{username}", method=GET)

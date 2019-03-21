@@ -4,11 +4,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 
 @Configuration
+//@EnableWebSecurity
+// 上面这个可以启用任何web项目的security
 @EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   
@@ -40,8 +44,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth
       .inMemoryAuthentication()
-        .withUser("user").password("password").roles("USER");
+        .withUser("user").password("password")
+            .roles("USER").and()
+        // roles方法是authorities方法简写，roles方法里会调用authorities方法
+        .withUser("admin").password("password")
+            .authorities("ROLE_USER","ROLE_ADMIN");
+
   }
 
-  
+  @Override
+  // 配置Spring Security的Filter链
+  public void configure(WebSecurity web) throws Exception {
+    super.configure(web);
+  }
 }
