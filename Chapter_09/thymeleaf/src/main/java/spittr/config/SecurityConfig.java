@@ -1,5 +1,6 @@
 package spittr.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -10,12 +11,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 
+import javax.sql.DataSource;
+
 @Configuration
 //@EnableWebSecurity
 // 上面这个可以启用任何web项目的security
 @EnableWebMvcSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-  
+
+  @Autowired
+  DataSource dataSource;
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
@@ -39,17 +45,41 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.POST, "/spittles").authenticated()
         .anyRequest().permitAll();
   }
-  
+
+//  /*
+//  * @Comment :  基于内存的用户存储
+//  *
+//  * @Author  : yii.fant@gmail.com
+//  * @Date    : 2019-03-21
+//  */
+//  @Override
+//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//    auth
+//      .inMemoryAuthentication()
+//        .withUser("user").password("password")
+//            .roles("USER").and()
+//        // roles方法是authorities方法简写，roles方法里会调用authorities方法
+//        .withUser("admin").password("password")
+//            .authorities("ROLE_USER","ROLE_ADMIN");
+//
+//  }
+
+  /*
+  * @Comment : 基于数据库表的认证，如果不配置自定义查询的话，对数据库模式有要求，参考官网：
+  * https://docs.spring.io/spring-security/site/docs/5.2.0.BUILD-SNAPSHOT/reference/htmlsingle/#appendix-schema
+  * 配置自定义查询在如下注释代码
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-03-21
+  */
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth
-      .inMemoryAuthentication()
-        .withUser("user").password("password")
-            .roles("USER").and()
-        // roles方法是authorities方法简写，roles方法里会调用authorities方法
-        .withUser("admin").password("password")
-            .authorities("ROLE_USER","ROLE_ADMIN");
-
+    auth.jdbcAuthentication().dataSource(dataSource);
+//            .usersByUsernameQuery(
+//                    "select username,password, true " +
+//                            "from Spitter where username=?")
+//            .authoritiesByUsernameQuery(
+//                    "select username, 'ROLE_USER' from Spitter where username=?")
+//              .groupAuthoritiesByUsername();
   }
 
   @Override
