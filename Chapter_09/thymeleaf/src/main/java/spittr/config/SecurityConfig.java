@@ -10,6 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.servlet.configuration.EnableWebMvcSecurity;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
+import spittr.data.SpitterRepository;
+import spittr.data.SpitterUserService;
 
 import javax.sql.DataSource;
 
@@ -22,11 +24,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   DataSource dataSource;
 
+  @Autowired
+  SpitterRepository spitterRepository;
+
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
       .formLogin()
-        .loginPage("/login")
+//        .loginPage("/login")
       .and()
         .logout()
           .logoutSuccessUrl("/")
@@ -40,8 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .realmName("Spittr")
       .and()
       .authorizeRequests()
-        .antMatchers("/").authenticated()
-        .antMatchers("/spitter/me").authenticated()
+            .antMatchers("/").hasRole("USER")
+//        .antMatchers("/").authenticated()
+//        .antMatchers("/spitter/me").authenticated()
         .antMatchers(HttpMethod.POST, "/spittles").authenticated()
         .anyRequest().permitAll();
   }
@@ -67,19 +73,30 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   /*
   * @Comment : 基于数据库表的认证，如果不配置自定义查询的话，对数据库模式有要求，参考官网：
   * https://docs.spring.io/spring-security/site/docs/5.2.0.BUILD-SNAPSHOT/reference/htmlsingle/#appendix-schema
-  * 配置自定义查询在如下注释代码
+  * 配置自定义查询在datasource后面的注释代码
   * @Author  : yii.fant@gmail.com
   * @Date    : 2019-03-21
   */
-  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    auth.jdbcAuthentication().dataSource(dataSource);
+//  @Override
+//  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//    auth.jdbcAuthentication().dataSource(dataSource);
 //            .usersByUsernameQuery(
 //                    "select username,password, true " +
 //                            "from Spitter where username=?")
 //            .authoritiesByUsernameQuery(
 //                    "select username, 'ROLE_USER' from Spitter where username=?")
 //              .groupAuthoritiesByUsername();
+//  }
+
+  /*
+  * @Comment : 自定义的用户服务
+  *
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-03-21
+  */
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+      auth.userDetailsService(new SpitterUserService(spitterRepository));
   }
 
   @Override
