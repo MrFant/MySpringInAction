@@ -31,7 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
       .formLogin()
-//        .loginPage("/login")
+        .loginPage("/login")
       .and()
         .logout()
           .logoutSuccessUrl("/")
@@ -45,9 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .realmName("Spittr")
       .and()
       .authorizeRequests()
-            .antMatchers("/").hasRole("USER")
-//        .antMatchers("/").authenticated()
-//        .antMatchers("/spitter/me").authenticated()
+//            .antMatchers("/").hasRole("USER")
+        .antMatchers("/").authenticated()
+        .antMatchers("/spitter/me").authenticated()
         .antMatchers(HttpMethod.POST, "/spittles").authenticated()
         .anyRequest().permitAll();
   }

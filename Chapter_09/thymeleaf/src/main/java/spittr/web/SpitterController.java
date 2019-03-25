@@ -31,6 +31,12 @@ public class SpitterController {
     return "registerForm";
   }
   
+  /*
+  * @Comment :
+  *
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-03-25
+  */
   @RequestMapping(value="/register", method=POST)
   public String processRegistration(
       @Valid Spitter spitter, 
