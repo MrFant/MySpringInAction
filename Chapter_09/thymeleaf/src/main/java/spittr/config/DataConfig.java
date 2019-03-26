@@ -12,7 +12,6 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import spittr.data.JdbcSpitterRepository;
 
 @Configuration
-@ComponentScan(basePackageClasses = JdbcSpitterRepository.class)
 public class DataConfig {
 
   @Bean
