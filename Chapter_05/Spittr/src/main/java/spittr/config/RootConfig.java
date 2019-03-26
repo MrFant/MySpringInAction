@@ -13,6 +13,12 @@ import spittr.config.RootConfig.WebPackage;
 
 @Configuration
 @Import(DataConfig.class)
+/*
+* @Comment :  自动装配整个包所有bean
+*
+* @Author  : yii.fant@gmail.com
+* @Date    : 2019-03-26
+*/
 @ComponentScan(basePackages={"spittr"}, 
     excludeFilters={
         @Filter(type=FilterType.CUSTOM, value=WebPackage.class)
