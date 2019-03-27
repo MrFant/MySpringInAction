@@ -89,7 +89,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //  }
 
   /*
-  * @Comment : 自定义的用户服务
+  * @Comment : 自定义的用户服务,SpitterUserService不管用户数据在哪存储，可以自定义loadUserByUsername方法
+  *            甚至可以随意伪造，它只是要获得由Spitter对象组成的User对象（User对象即UserDetails的具体实现）
   *
   * @Author  : yii.fant@gmail.com
   * @Date    : 2019-03-21
