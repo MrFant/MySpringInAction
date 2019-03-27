@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import spittr.db.jdbc.JdbcSpittleRepository;
+import spittr.db.SpittleRepository;
 import spittr.domain.Spitter;
 import spittr.domain.Spittle;
 
@@ -21,7 +21,7 @@ import spittr.domain.Spittle;
 public class JdbcSpittleRepositoryTest {
 
   @Autowired
-  JdbcSpittleRepository spittleRepository;
+  SpittleRepository spittleRepository;
 
   @Test
   public void count() {
