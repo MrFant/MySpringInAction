@@ -8,6 +8,14 @@ dependencies {
 	compile "com.h2database:h2:$h2Version"
 	compile "org.hibernate:hibernate-validator:$hibernateValidatorVersion"
 	compile "org.apache.commons:commons-lang3:$commonsLangVersion"
+    // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.9.5'
+// https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-core-asl
+    compile group: 'org.codehaus.jackson', name: 'jackson-core-asl', version: '1.9.13'
+
+// https://mvnrepository.com/artifact/org.codehaus.jackson/jackson-mapper-asl
+    compile group: 'org.codehaus.jackson', name: 'jackson-mapper-asl', version: '1.9.13'
+
 
     compile "javax.servlet:jstl:$jstlVersion"
     providedCompile "javax.servlet:javax.servlet-api:$servletApiVersion"
