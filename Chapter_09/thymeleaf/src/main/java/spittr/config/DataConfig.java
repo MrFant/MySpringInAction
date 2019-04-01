@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jndi.JndiObjectFactoryBean;
 import spittr.data.JdbcSpitterRepository;
 
 @Configuration
@@ -27,4 +28,12 @@ public class DataConfig {
     return new JdbcTemplate(dataSource);
   }
 
+//  @Bean
+//  public DataSource prodDataSource(){
+//    JndiObjectFactoryBean jndiObjectFactoryBean=new JndiObjectFactoryBean();
+//    jndiObjectFactoryBean.setJndiName("jndi/h2");
+//    jndiObjectFactoryBean.setResourceRef(true);
+//    jndiObjectFactoryBean.setProxyInterface(javax.sql.DataSource.class);
+//    return (DataSource) jndiObjectFactoryBean.getObject();
+//  }
 }

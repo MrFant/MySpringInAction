@@ -24,6 +24,7 @@ public class JdbcConfig {
   @Profile("dev")
   @Bean
   public DataSource embeddedDataSource() {
+    // 使用h2数据库的内存运行模式
     return new EmbeddedDatabaseBuilder()
       .setType(EmbeddedDatabaseType.H2)
       .addScripts("classpath:spittr/db/jdbc/schema.sql", "classpath:spittr/db/jdbc/test-data.sql")
