@@ -7,9 +7,11 @@ import javax.inject.Inject;
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -21,6 +23,12 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 @Configuration
 @EnableTransactionManagement
+/*
+* @Comment : 这里的组件扫描没有指明在哪个包下，所以默认是当前包
+*            神奇的是在另一个main模块的【同名包】下的两个repository类也能被扫描到
+*            @Author  : yii.fant@gmail.com
+* @Date    : 2019-04-01
+*/
 @ComponentScan
 public class RepositoryTestConfig implements TransactionManagementConfigurer {
 
@@ -29,12 +37,18 @@ public class RepositoryTestConfig implements TransactionManagementConfigurer {
 
   @Bean
   public DataSource dataSource() {
-    EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder();
-    edb.setType(EmbeddedDatabaseType.H2);
-    edb.addScript("spittr/db/hibernate4/schema.sql");
-    edb.addScript("spittr/db/hibernate4/test-data.sql");
-    EmbeddedDatabase embeddedDatabase = edb.build();
-    return embeddedDatabase;
+    //这里有两种写法
+//    EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder();
+//    edb.setType(EmbeddedDatabaseType.H2);
+//    edb.addScript("spittr/db/hibernate4/schema.sql");
+//    edb.addScript("spittr/db/hibernate4/test-data.sql");
+//    EmbeddedDatabase embeddedDatabase = edb.build();
+//    return embeddedDatabase;
+    return new EmbeddedDatabaseBuilder()
+            .setType(EmbeddedDatabaseType.H2)
+            .addScripts("spittr/db/hibernate4/schema.sql","spittr/db/hibernate4/test-data.sql")
+            .build();
+
   }
 
   public PlatformTransactionManager annotationDrivenTransactionManager() {
@@ -45,10 +59,10 @@ public class RepositoryTestConfig implements TransactionManagementConfigurer {
   }
 
   @Bean
-  public SessionFactory sessionFactoryBean() {
+  public SessionFactory sessionFactoryBean(DataSource dataSource) {
     try {
       LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
-      lsfb.setDataSource(dataSource());
+      lsfb.setDataSource(dataSource);
       lsfb.setPackagesToScan("spittr.domain");
       Properties props = new Properties();
       props.setProperty("dialect", "org.hibernate.dialect.H2Dialect");
@@ -60,4 +74,9 @@ public class RepositoryTestConfig implements TransactionManagementConfigurer {
       return null;
     }
   }
+//
+//  @Bean
+//  public BeanPostProcessor persist(){
+//    return new PersistenceExceptionTranslationPostProcessor();
+//  }
 }

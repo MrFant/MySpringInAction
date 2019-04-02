@@ -21,6 +21,13 @@ import spittr.domain.Spitter;
 @ActiveProfiles("qa")
 public class JdbcSpitterRepositoryTest {
 
+  /*
+  * @Comment : 第十章jdbc使用的是基于Java bean代码的注入
+  *            下一章使用的是自动自动注入，使用了repository 注解
+  *
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-04-01
+  */
   @Autowired
   SpitterRepository spitterRepository;
 
