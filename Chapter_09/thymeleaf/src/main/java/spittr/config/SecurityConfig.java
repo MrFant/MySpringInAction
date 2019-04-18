@@ -31,6 +31,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http
       .formLogin()
+            //Specifies to support form based authentication. If
+            //     * {@link FormLoginConfigurer#loginPage(String)} is not specified a
+            //     * default login page will be generated.
         .loginPage("/login")
       .and()
         .logout()

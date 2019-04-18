@@ -46,10 +46,18 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
     configurer.enable();
   }
-  
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/login").setViewName("login");
-  }
+  /*
+  * @Comment : 这里可以通过重写WebMvcConfigurerAdapter的addViewControllers方法来添加视图控制器
+  * 这个视图控制器是为了让/login请求使用login视图
+  * A view controller does nothing more than return a specified
+  * view name. It saves you from having to write a controller when you want to forward the request straight
+  * through to a view such as a JSP.
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-04-18
+  */
+//  @Override
+//  public void addViewControllers(ViewControllerRegistry registry) {
+//    registry.addViewController("/login").setViewName("login");
+//  }
   
 }
