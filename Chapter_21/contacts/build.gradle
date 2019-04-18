@@ -10,8 +10,9 @@ buildscript {
 
 apply plugin: 'java'
 apply plugin: 'spring-boot'
+apply plugin: 'war'
 
-jar {
+war {
 	baseName = 'contacts'
 	version  = '0.1.0'
 }
@@ -21,10 +22,19 @@ repositories {
 }
 
 dependencies {
-	compile("org.springframework.boot:spring-boot-starter-web")
+//	排除内嵌tomcat依赖，避免外部部署的时候产生冲突
+	compile("org.springframework.boot:spring-boot-starter-web") 
+			{
+				exclude module:'spring-boot-starter-tomcat' 
+			}
 	compile("org.springframework.boot:spring-boot-starter-jdbc")
 	compile("org.thymeleaf:thymeleaf-spring4")
 	compile("com.h2database:h2")
+	// https://mvnrepository.com/artifact/org.apache.tomcat/tomcat-servlet-api
+	//外部部署的时候 还需要加上tomcat servlet api依赖，否则会出错
+	compile group: 'org.apache.tomcat', name: 'tomcat-servlet-api', version: '9.0.0.M22'
+
+
 }
 
 task wrapper(type: Wrapper) {
