@@ -20,6 +20,8 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.TransactionManagementConfigurer;
+import spittr.domain.Spitter;
+import spittr.domain.Spittle;
 
 @Configuration
 @EnableTransactionManagement
@@ -63,7 +65,18 @@ public class RepositoryTestConfig implements TransactionManagementConfigurer {
     try {
       LocalSessionFactoryBean lsfb = new LocalSessionFactoryBean();
       lsfb.setDataSource(dataSource);
+      /*
+      * @Comment : 使用packagesToScan属性告诉Spring扫描一个或多个包以查找域类，这些类通过注解的方式表明要使用
+      * Hibernate进行持久化，这些类可以使用的注解包括JPA的@Entity或@MappedSuperclass以及Hibernate的@Entity。
+      *
+      * @Author  : yii.fant@gmail.com
+      * @Date    : 2019-04-22
+      */
       lsfb.setPackagesToScan("spittr.domain");
+
+//      如果愿意的话，你还可以使用annotatedClasses属性来将应用程序中所有的持久化类以全限定名的方式明确列出：
+//      lsfb.setAnnotatedClasses(Spitter.class, Spittle.class);
+
       Properties props = new Properties();
       props.setProperty("dialect", "org.hibernate.dialect.H2Dialect");
       lsfb.setHibernateProperties(props);
@@ -74,9 +87,15 @@ public class RepositoryTestConfig implements TransactionManagementConfigurer {
       return null;
     }
   }
-//
-//  @Bean
-//  public BeanPostProcessor persist(){
-//    return new PersistenceExceptionTranslationPostProcessor();
-//  }
+  /*
+  * @Comment : 它会在所有拥有@Repository注解的类上添加一个通知器（advisor），这样就会
+  * 捕获任何平台相关的异常并以Spring非检查型数据访问异常的形式重新抛出。
+  *
+  * @Author  : yii.fant@gmail.com
+  * @Date    : 2019-04-22
+  */
+  @Bean
+  public BeanPostProcessor persist(){
+    return new PersistenceExceptionTranslationPostProcessor();
+  }
 }
