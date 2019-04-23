@@ -4,6 +4,7 @@ import javax.inject.Inject;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
+import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
@@ -24,12 +25,20 @@ public class JpaConfig {
 
   @Bean
   public DataSource dataSource() {
-    EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder();
-    edb.setType(EmbeddedDatabaseType.H2);
-    edb.addScript("spittr/db/jpa/schema.sql");
-    edb.addScript("spittr/db/jpa/test-data.sql");
-    EmbeddedDatabase embeddedDatabase = edb.build();
-    return embeddedDatabase;
+//    EmbeddedDatabaseBuilder edb = new EmbeddedDatabaseBuilder();
+//    edb.setType(EmbeddedDatabaseType.H2);
+//    edb.addScript("spittr/db/jpa/schema.sql");
+//    edb.addScript("spittr/db/jpa/test-data.sql");
+//    EmbeddedDatabase embeddedDatabase = edb.build();
+//    return embeddedDatabase;
+    BasicDataSource basicDataSource=new BasicDataSource();
+    basicDataSource.setDriverClassName("org.h2.Driver");
+    basicDataSource.setUrl("jdbc:h2:tcp://localhost/~/spitter");
+    basicDataSource.setUsername("sa");
+    basicDataSource.setPassword("");
+    basicDataSource.setInitialSize(5);
+    basicDataSource.setMaxIdle(10);
+    return basicDataSource;
   }
 
   @Bean

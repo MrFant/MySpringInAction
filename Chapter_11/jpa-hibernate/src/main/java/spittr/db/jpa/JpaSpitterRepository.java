@@ -12,7 +12,12 @@ import spittr.domain.Spitter;
 
 @Repository
 public class JpaSpitterRepository implements SpitterRepository {
-
+	/*
+	* @Comment : 由于EntityManager并不是线程安全的，本来并不适合直接注入到repository这样共享的bean里面
+	*  但是使用PersistenceContext 可以给EntityManager一个代理，使得线程安全
+	* @Author  : yii.fant@gmail.com
+	* @Date    : 2019-04-22
+	*/
 	@PersistenceContext
 	private EntityManager entityManager;
 

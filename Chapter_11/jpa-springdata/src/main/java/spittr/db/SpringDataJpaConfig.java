@@ -9,7 +9,12 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-
+/*
+* @Comment : 这个配置文件是作者自己的，在这个模块中并没有派上用场
+*
+* @Author  : yii.fant@gmail.com
+* @Date    : 2019-04-22 21:56
+*/
 @Configuration
 @EnableJpaRepositories("com.habuma.spitter.db")
 public class SpringDataJpaConfig {

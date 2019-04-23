@@ -57,6 +57,12 @@ public class JpaConfig {
   @Configuration
   @EnableTransactionManagement
   public static class TransactionConfig implements TransactionManagementConfigurer {
+    /*
+    * @Comment : 注入上面的LocalContainerEntityManagerFactoryBean 工厂bean
+    *
+    * @Author  : yii.fant@gmail.com
+    * @Date    : 2019-04-22
+    */
     @Inject
     private EntityManagerFactory emf;
 
