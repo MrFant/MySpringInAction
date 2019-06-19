@@ -12,3 +12,16 @@
 *.iml
 *.ipr
 .mvn/
+
+### 子模块下的构建文件夹
+*/build/
+*/*/out/*/*/
+*.settings
+*.project
+*.classpath
+*/.gradle/
+*/gradlew
+*/gradlew.bat
+*/gradle
+*.class
+*.zip
