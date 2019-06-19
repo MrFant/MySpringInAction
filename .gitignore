@@ -1,11 +1,14 @@
-*/build/
-*/*/out/*/*/
-*.settings
-*.project
-*.classpath
-*.idea
-*/.gradle
-*/gradlew
-*/gradlew.bat
-*/gradle
-*.class
+### 编译结果
+/target/
+/out/
+/build/
+
+### 构建工具
+.gradle/
+
+### IntelliJ IDEA ###
+.idea/
+*.iws
+*.iml
+*.ipr
+.mvn/
